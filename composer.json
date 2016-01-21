@@ -1,0 +1,24 @@
+{
+    "name": "wdst/config",
+    "version": "1.0.0",
+    "description": "Библиотека для работы с конфиг-файлами типа ini",
+
+    "keywords": [
+        "config",
+        "ini"
+    ],
+    "authors": [
+        {
+            "name": "wdst",
+            "email": "wds@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "wdst\\config\\": ""
+        }
+    }
+}
