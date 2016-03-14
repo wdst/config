@@ -1,7 +1,7 @@
 {
     "name": "wdst/config",
-    "version": "1.0.0",
-    "description": "Библиотека для работы с конфиг-файлами типа ini",
+    "version": "2.0.0",
+    "description": "Библиотека для работы с конфиг-файлами",
 
     "keywords": [
         "config",
