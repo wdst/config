@@ -6,15 +6,11 @@
 
 namespace wdst\config;
 
-class AEception extends \Exception{
-    
-};
-
 class Config {
 
     private $filename;
     private $type;
-    private $extList = [
+    protected $extList = [
             'ini' => ['ini', 'cfg'],
             'php' => ['php']
         ];
@@ -23,14 +19,14 @@ class Config {
     {
         return $this->filename($filename, $type);
     }
-    
+
     public function filename($filename, $type = null)
     {
         if (!file_exists($filename)) {
             throw new \Exception("Config file does not exist: " . $filename);
         }
 
-        $type = ($type === null) ? $this->getExtension($filename) : $type;
+        $type = ($type === null) ? $this->getExtType($filename) : $type;
 
         if(empty($type) || !in_array($type, array_keys($this->extList))){
             throw new \Exception("Wrong type: " . $type);
@@ -59,6 +55,21 @@ class Config {
         return $this;
     }
 
+    private function getExtType($filename)
+    {
+        $ext = $this->getExtension($filename);
+        return $this->getTypeExt($ext);
+    }
+
+    private function getTypeExt($ext)
+    {
+        foreach($this->extList as $k => $v){
+            if(in_array($ext, $v)){
+                return $k;
+            }
+        }
+    }
+
     private function getExtension($filename)
     {
         $tmp = explode('.', $filename);
@@ -72,14 +83,13 @@ class Config {
         }
 
         $method = 'get' . $this->type;
-        
-        
-            if(method_exists($this, $method)) {
-                return $this->$method($section, $key, $default);
-            } else {
-                throw new \Exception("Wrong type " . $this->type);
-            }
-        
+
+        if(method_exists($this, $method)) {
+            return $this->$method($section, $key, $default);
+        } else {
+            throw new \Exception("Wrong type " . $this->type);
+        }
+
         return false;
     }
 
@@ -115,12 +125,12 @@ class Config {
     }
 
     protected function parse($data, $section = null, $key = null, $default = null)
-    {       
+    {
         if(!empty($section)) {
 
             if(empty($data[$section]))
                 throw new \Exception("Config file does not contain section: " . $section);
-            
+
             $result = $data[$section];
 
             if(!empty($key)) {

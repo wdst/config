@@ -26,6 +26,12 @@ try{
 }
 
 try{
+    $config->get('no_section');
+}catch(Exception $e){
+    print test_ini("Error no_section", $e->getMessage());
+}
+
+try{
     $config = new wdst\config\Config(__DIR__ . '/config_no.ini');
 }catch(Exception $e){
     print test_ini("Error no_file", $e->getMessage());
@@ -72,6 +78,10 @@ try{
 }catch(Exception $e){
     print test_ini("Error 2 file ini empty: ", $e->getMessage());
 }
+
+$config = new wdst\config\Config(__DIR__ . '/config.cfg');
+print test_ini("cfg", $config->get());
+
 
 print "====== PHP ======" . PHP_EOL;
 
